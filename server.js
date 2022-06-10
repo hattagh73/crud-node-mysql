@@ -54,5 +54,5 @@ app.listen(PORT,HOST, (err) => {
     // If no error 
     if(!err) return console.log(`Server is running. Port: ${PORT} & Host ${HOST}`);
     // If failed shows error
-    if (err) return console.log(`Server has failed to start it now. ${err}`);
+    if (err) return console.log(`Server has failed to start. ${err}`);
 });
