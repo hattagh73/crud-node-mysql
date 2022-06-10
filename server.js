@@ -31,7 +31,7 @@ app.use(express.json());  // For form submition
 /* END */
 
 /* START Routes - User Route */
-app.use("/api/v1/user",  require("./routes/userRoutes"));
+app.use('/api/v1/user',  require('./routes/userRoutes'));
 /* END */
 
 /* START Global Error Handler */ 
@@ -47,11 +47,11 @@ app.use((err, req, res, next) => {
 /* END */ 
 
 /* START Run Server */
-app.listen(PORT,HOST, (err) => {
+app.listen(PORT, HOST, (err) => {
     // If no error 
     if(!err) return console.log(`Server is running. Port: ${PORT} & Host ${HOST}`);
     
     // If failed shows error
-    if (err) return console.log(`Server has failed to start. Add One lah ${err}`);
+    if (err) return console.log(`Server has failed to start. ${err}`);
 });
 /* END */
