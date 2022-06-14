@@ -4,7 +4,7 @@ const apiKey = process.env.API_KEY;
 const globalToken = (req, res, next) => {
     const apiKeyHeaders = req.query.api_key;
     // console.log(`The api_key is: ${apiKeyHeaders}`);
-    if(!apiKeyHeaders) return res.status(403).json({success: false, message: "The api_key is needed"});
+    if(!apiKeyHeaders) return res.status(403).json({success: false, message: "The api_key is needed for this route"});
 
     if(apiKeyHeaders === apiKey) {
         next()
