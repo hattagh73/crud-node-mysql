@@ -10,9 +10,6 @@ exports.getAllUsers = async (req, res, next) => {
     let pageAsNumber = Number.parseInt(req.query.page);
     let limitAsNumber = Number.parseInt(req.query.limit);
     let offset = Number.parseInt(req.query.offset);
-    // const sort = toUpperCase(req.query.sort);
-    // let sort = req.query.sort;
-    // sort = sort.toUpperCase();
 
     let page = 1;
     if(!Number.isNaN(pageAsNumber) && pageAsNumber > 1) {
@@ -24,6 +21,7 @@ exports.getAllUsers = async (req, res, next) => {
         limit = limitAsNumber;
     }
 
+    offset = ( page - 1 ) * limit;
     // let { page, limit } = req.query;
     // let { page, limit } = req.query;
 
@@ -34,12 +32,6 @@ exports.getAllUsers = async (req, res, next) => {
     // if(!limit) {
     //     limit=2;
     // }
-
-    offset = ( page - 1 ) * limit;
-
-    // const sql_query = `SELECT user_id, user_name, gender, status FROM users LIMIT ${size} OFFSET ${skip}`;
-    // const sql_query2 = 'SELECT user_id, user_name, gender, status FROM users LIMIT ? OFFSET ?';
-    //     'SELECT COUNT(*) as total FROM users';
 
     const users_count_sql = `SELECT COUNT(*) as total FROM users`;
 
@@ -59,14 +51,25 @@ exports.getAllUsers = async (req, res, next) => {
             const ttlUsers = Number.parseInt(totals[0]['total']);
             const ttlPage = Math.ceil(ttlUsers/limit);
 
-            // const data = users.filter((user) => user.user_gender == 'Male');
+            const conDates = users.map(user => {
+                const dates = new Date(user.createdAt);
+                const time_kl = dates.toLocaleString("en-UK", {
+                    timeZone: "Asia/Kuala_Lumpur"
+                });
+                return time_kl
+            });
+
+            const newResults = users.map((user, i) => ({
+                ...user,
+                createdAt: conDates[i]
+            })) ;
 
             res.status(200).json({
                 success: true,
                 total_users: ttlUsers,
                 page: page,
                 total_page: ttlPage,
-                data: users
+                data: newResults
             });
         });  
     });     
@@ -75,8 +78,12 @@ exports.getAllUsers = async (req, res, next) => {
 
 /* 2. START Get A User Details By ID */ 
 exports.getUserById = async (req, res, next) => {
-    const id = req.query.user_id;
-    const userByID_sql = `SELECT user_name, user_email, user_gender FROM users WHERE user_id = ?`;
+    const id = req.params.user_id;
+    const userByID_sql = `
+        SELECT user_id, user_name, user_email, user_gender, createdAt
+        FROM users 
+        WHERE user_id = ?
+    `;
 
     if(!id) return res.json({ success: false, message: "user_id is required" });
     if(id < 0 ) return res.json({ success: false, message: "user_id can't be negative" });
@@ -87,8 +94,28 @@ exports.getUserById = async (req, res, next) => {
 
         if(!userByID_result[0]) return res.json({ success: false, message: "The ID is not exists/ found" });
 
-        if(userByID_result) return res.json({ success: true, data: userByID_result });  
-        
+        if(userByID_result) {
+            const date = userByID_result[0].createdAt;
+            // var options = { hour12: false }; 
+            const date1 = new Date(date);
+            const time_kl = date1.toLocaleString("en-UK", {
+                    timeZone: "Asia/Kuala_Lumpur"
+            });
+
+            const time_tokyo = date1.toLocaleString("en-UK", {
+                    timeZone: "Asia/Tokyo"
+            });
+            // let arr_created_at = []
+            userByID_result[0].createdAt = [{time_kl}, {time_tokyo}];
+            // userByID_result[0].createdAt.push = `${result_kl}`;
+            // userByID_result[0].createdAt.push = `${result_tokyo}`;
+            res.json({ 
+                success: true, 
+                data: userByID_result 
+            });
+
+            return 
+        }
     });
 }
 /* 2. END A User Details By ID */ 
