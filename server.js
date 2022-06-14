@@ -55,5 +55,3 @@ app.listen(PORT, HOST, (err) => {
     if (err) return console.log(`Server has failed to start. ${err}`);
 });
 /* END */
-
-// Add line A - by hattagh73two
