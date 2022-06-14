@@ -7,8 +7,8 @@ const { globalToken } = require('./middleware/global_token');
 const HOST = process.env.SERVER_HOST;
 const PORT = process.env.SERVER_PORT;
 
-/* START Custom middleware logger */ 
-app.use(logger);
+/* START Middleware */ 
+app.use(logger); // Middw. logger
 app.use(globalToken);
 
 const whitelist = ['http://localhost:3000'] // Cross Origin Resource Sharing
@@ -49,7 +49,7 @@ app.use((err, req, res, next) => {
 /* START Run Server */
 app.listen(PORT, HOST, (err) => {
     // If no error 
-    if(!err) return console.log(`Server is running. Port: ${PORT} & Host ${HOST}`);
+    if(!err) return console.log(`HOST::: ${HOST} PORT::: ${PORT}`);  
     
     // If failed shows error
     if (err) return console.log(`Server has failed to start. ${err}`);
