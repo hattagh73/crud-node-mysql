@@ -5,7 +5,7 @@ const app = express();
 const { logger } = require('./middleware/log_events');
 const { globalToken } = require('./middleware/global_token');
 
-const PORT = process.env.PORT || 2998;
+const PORT = process.env.PORT || 2888;
 
 /* START Middleware */ 
 app.use(logger); // Middw. logger
@@ -41,7 +41,7 @@ app.use((err, req, res, next) => {
     console.log(err.code);
 
     return res.status(500).json({
-        message: "Something went rely wrong",
+        message: "Something went wrong",
     });
 });
 /* END */ 
