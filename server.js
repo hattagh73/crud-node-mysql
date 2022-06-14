@@ -49,7 +49,7 @@ app.use((err, req, res, next) => {
 /* START Run Server */
 app.listen(PORT, HOST, (err) => {
     // If no error 
-    if(!err) return console.log(`HOST::: ${HOST} PORT::: ${PORT}`);  
+    if(!err) return console.log(`Server is running. HOST::: ${HOST} • PORT::: ${PORT}`);  
     
     // If failed shows error
     if (err) return console.log(`Server has failed to start. ${err}`);
