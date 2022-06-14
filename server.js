@@ -4,8 +4,8 @@ const express = require('express');
 const app = express();
 const { logger } = require('./middleware/log_events');
 const { globalToken } = require('./middleware/global_token');
-const HOST = process.env.SERVER_HOST;
-const PORT = process.env.SERVER_PORT;
+
+const PORT = process.env.PORT || 2998;
 
 /* START Middleware */ 
 app.use(logger); // Middw. logger
@@ -47,9 +47,9 @@ app.use((err, req, res, next) => {
 /* END */ 
 
 /* START Run Server */
-app.listen(PORT, HOST, (err) => {
+app.listen(PORT, (err) => {
     // If no error 
-    if(!err) return console.log(`Server is running. HOST::: ${HOST} • PORT::: ${PORT}`);  
+    if(!err) return console.log(`Server is running. PORT::: ${PORT}`);  
     
     // If failed shows error
     if (err) return console.log(`Server has failed to start. ${err}`);
