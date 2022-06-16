@@ -5,7 +5,7 @@ const app = express();
 const { logger } = require('./middleware/log_events');
 const { globalToken } = require('./middleware/global_token');
 
-const PORT = process.env.PORT || 2888;
+const PORT = process.env.PORT || 2998;
 
 /* START Middleware */ 
 app.use(logger); // Middw. logger
