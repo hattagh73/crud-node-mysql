@@ -45,7 +45,7 @@ exports.getAllUsers = async (req, res, next) => {
     await pool.execute(users_count_sql, (err, totals) => {
         if (err) throw err;
 
-        pool.execute({sql: select_user_sql, timeout: 1000}, [limit.toString(), offset + ""], (err, users) => {
+        pool.execute(select_user_sql, [limit.toString(), offset + ""], (err, users) => {
             if(err) return console.log(`The select sql error is: ${err}`);
                 
             const ttlUsers = Number.parseInt(totals[0]['total']);
